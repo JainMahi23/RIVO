@@ -1,9 +1,26 @@
 import { Router } from "express";
-import { getAssessmentPlaceholder } from "../controllers/assessmentController.js";
+
+import {
+  createAssessment,
+  getAssessments,
+  getAssessmentById,
+  updateAssessment,
+} from "../controllers/assessmentController.js";
+
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-// GET /api/assessment
-router.get("/", getAssessmentPlaceholder);
+// POST /api/assessments
+router.post("/", protect, createAssessment);
+
+// GET /api/assessments
+router.get("/", protect, getAssessments);
+
+// GET /api/assessments/:id
+router.get("/:id", protect, getAssessmentById);
+
+// PUT /api/assessments/:id
+router.put("/:id", protect, updateAssessment);
 
 export default router;

@@ -1,13 +1,54 @@
 import mongoose from "mongoose";
 
-// Static/reference data describing a category of business the user
-// can select during Assessment.
 const businessCategorySchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    description: String,
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+
+    slug: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      unique: true,
+    },
+
+    description: {
+      type: String,
+      trim: true,
+    },
+
+    sector: {
+      type: String,
+      trim: true,
+    },
+
+    typicalInvestmentRange: {
+      min: {
+        type: Number,
+        min: 0,
+      },
+      max: {
+        type: Number,
+        min: 0,
+      },
+    },
+
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("BusinessCategory", businessCategorySchema);
+export default mongoose.model(
+  "BusinessCategory",
+  businessCategorySchema
+);
