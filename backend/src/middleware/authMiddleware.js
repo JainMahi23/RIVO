@@ -1,18 +1,26 @@
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
+import User from "../models/User.js";
 
-// Placeholder auth guard. Real token issuance/refresh comes with the
-// auth module — this just establishes where the check happens.
-export function requireAuth(req, res, next) {
-  const header = req.headers.authorization;
-  if (!header?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Missing or invalid Authorization header" });
-  }
+// Attach req.user if the request has a valid auth cookie, else 401
+export async function protect(req, res, next) {
   try {
-    const token = header.split(" ")[1];
-    req.user = jwt.verify(token, env.jwtSecret);
+    const token = req.cookies?.[env.cookieName];
+
+    if (!token) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const decoded = jwt.verify(token, env.jwtSecret);
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({ message: "User no longer exists" });
+    }
+
+    req.user = user;
     next();
-  } catch {
+  } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 }
