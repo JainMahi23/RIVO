@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { defaultRateLimiter } from "./middleware/rateLimitMiddleware.js";
@@ -15,7 +16,7 @@ import feasibilityRoutes from "./routes/feasibilityRoutes.js";
 import loanRoutes from "./routes/loanRoutes.js";
 import schemeRoutes from "./routes/schemeRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
-
+import businessCategoryRoutes from "./routes/businessCategoryRoutes.js";
 const app = express();
 
 // Security & platform middleware
@@ -37,7 +38,10 @@ app.use("/api/feasibility", feasibilityRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/schemes", schemeRoutes);
 app.use("/api/ai", aiRoutes);
-
+app.use(
+  "/api/business-categories",
+  businessCategoryRoutes
+);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 

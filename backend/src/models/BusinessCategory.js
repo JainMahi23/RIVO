@@ -48,7 +48,4 @@ const businessCategorySchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model(
-  "BusinessCategory",
-  businessCategorySchema
-);
+export default mongoose.model("BusinessCategory", businessCategorySchema);

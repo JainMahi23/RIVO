@@ -1,18 +1,40 @@
 import mongoose from "mongoose";
 
-// Geographic/demographic reference data for an assessment's location.
 const locationSchema = new mongoose.Schema(
   {
-    village: String,
-    block: String,
-    district: String,
-    state: String,
+    state: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    district: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    subDistrict: {
+      type: String,
+      trim: true,
+    },
+
+    village: {
+      type: String,
+      trim: true,
+    },
+
+    population: Number,
+    malePopulation: Number,
+    femalePopulation: Number,
+    households: Number,
+
+    censusYear: Number,
+
     coordinates: {
       lat: Number,
       lng: Number,
     },
-    population: Number,
-    households: Number,
   },
   { timestamps: true }
 );

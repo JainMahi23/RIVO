@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { getSchemePlaceholder } from "../controllers/schemeController.js";
+import {
+  getSchemes,
+  getSchemeById,
+} from "../controllers/schemeController.js";
 
 const router = Router();
 
-// GET /api/scheme
-router.get("/", getSchemePlaceholder);
+router.get("/", getSchemes);
+router.get("/:id", getSchemeById);
 
 export default router;
