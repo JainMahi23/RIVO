@@ -1,9 +1,17 @@
-import { Router } from "express";
-import { getMarketPlaceholder } from "../controllers/marketController.js";
+import express from "express";
 
-const router = Router();
+import {
+  analyzeMarket,
+  getMarketAnalysis,
+} from "../controllers/marketController.js";
 
-// GET /api/market
-router.get("/", getMarketPlaceholder);
+const router = express.Router();
+
+router.post("/analyze", analyzeMarket);
+
+router.get(
+  "/assessment/:assessmentId",
+  getMarketAnalysis
+);
 
 export default router;
