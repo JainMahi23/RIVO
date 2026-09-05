@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getFinancePlaceholder } from "../controllers/financeController.js";
+
+import { calculateFinance } from "../controllers/financeController.js";
 
 const router = Router();
 
-// GET /api/finance
-router.get("/", getFinancePlaceholder);
+router.post("/calculate", calculateFinance);
 
 export default router;
