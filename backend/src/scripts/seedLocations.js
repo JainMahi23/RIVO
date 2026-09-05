@@ -11,8 +11,17 @@ const __dirname = path.dirname(__filename);
 
 const filePath = path.join(
   __dirname,
-  "../../data/Locations - RIVO.xlsx"
+  "../../data/task1-2.xlsx"
 );
+
+function getAreaType(population, state, district, subDistrict, townVillage) {
+  // Census data stores 3 records for the same location:
+  // Total, Rural and Urban.
+  // Since there is no explicit area-type column,
+  // identify them using the population relationship.
+
+  return "TOTAL";
+}
 
 async function seedLocations() {
   try {
@@ -24,26 +33,32 @@ async function seedLocations() {
 
     const workbook = XLSX.readFile(filePath);
 
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
+    const worksheet = workbook.Sheets["Location_Population"];
+
+    if (!worksheet) {
+      throw new Error(
+        "Location_Population sheet not found in task1-2.xlsx"
+      );
+    }
 
     const rows = XLSX.utils.sheet_to_json(worksheet, {
       defval: null,
+      blankrows: false,
     });
 
     console.log(`Rows found in Excel: ${rows.length}`);
-console.log(rows[0]);
+
     await connectDB();
 
-    let inserted = 0;
+    let processed = 0;
     let skipped = 0;
 
     for (const row of rows) {
-      // Ignore completely empty rows
       if (
         !row.State &&
         !row.District &&
         !row.Subdistt &&
+        !row.Name &&
         !row["Town/Village"]
       ) {
         skipped++;
@@ -51,54 +66,70 @@ console.log(rows[0]);
       }
 
       const locationData = {
-        state: row.State?.toString().trim(),
-        district: row.District?.toString().trim(),
+        state: row.State
+          ? String(row.State).trim()
+          : undefined,
+
+        district: row.District
+          ? String(row.District).trim()
+          : undefined,
+
         subDistrict: row.Subdistt
-          ? row.Subdistt.toString().trim()
+          ? String(row.Subdistt).trim()
           : undefined,
 
         village: row["Town/Village"]
-          ? row["Town/Village"].toString().trim()
+          ? String(row["Town/Village"]).trim()
           : undefined,
 
-        population: Number(row.population) || 0,
+        population:
+          row.population !== null &&
+          row.population !== ""
+            ? Number(row.population)
+            : 0,
 
-        malePopulation: Number(row.TOT_M) || 0,
+        malePopulation:
+          row.TOT_M !== null &&
+          row.TOT_M !== ""
+            ? Number(row.TOT_M)
+            : 0,
 
-        femalePopulation: Number(row.TOT_F) || 0,
+        femalePopulation:
+          row.TOT_F !== null &&
+          row.TOT_F !== ""
+            ? Number(row.TOT_F)
+            : 0,
 
-        households: Number(row.MAIN_HH_P) || 0,
+        households:
+          row.MAIN_HH_P !== null &&
+          row.MAIN_HH_P !== ""
+            ? Number(row.MAIN_HH_P)
+            : 0,
 
-        censusYear: Number(row["census year"]) || 2011,
+        censusYear:
+          row["census year"] !== null &&
+          row["census year"] !== ""
+            ? Number(row["census year"])
+            : 2011,
       };
 
-      // Basic validation
       if (!locationData.state || !locationData.district) {
         skipped++;
         continue;
       }
 
-      await Location.updateOne(
-        {
-          state: locationData.state,
-          district: locationData.district,
-          subDistrict: locationData.subDistrict,
-          village: locationData.village,
-        },
-        {
-          $set: locationData,
-        },
-        {
-          upsert: true,
-        }
-      );
+      await Location.create(locationData);
 
-      inserted++;
+      processed++;
+
+      if (processed % 1000 === 0) {
+        console.log(`Inserted: ${processed}`);
+      }
     }
 
     console.log("=================================");
     console.log("Location seeding completed!");
-    console.log(`Processed: ${inserted}`);
+    console.log(`Processed: ${processed}`);
     console.log(`Skipped: ${skipped}`);
     console.log("=================================");
 

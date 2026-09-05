@@ -1,55 +1,50 @@
-import mongoose from "mongoose";
-import XLSX from "xlsx";
+import fs from "fs";
 import path from "path";
-import dotenv from "dotenv";
+import XLSX from "xlsx";
 import { fileURLToPath } from "url";
 
-import LocationPopulation from "../models/LocationPopulation.js";
-
-dotenv.config();
+import { connectDB } from "../config/db.js";
+import Location from "../models/Location.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const EXCEL_FILE = path.join(
+const filePath = path.join(
   __dirname,
   "../../data/task1-2.xlsx"
 );
 
-const BATCH_SIZE = 1000;
-
-async function seedLocationPopulation() {
+async function seedLocations() {
   try {
-    console.log("Connecting to MongoDB...");
-
-    await mongoose.connect(process.env.MONGO_URI);
-
-    console.log("MongoDB connected");
     console.log("Reading Excel file...");
 
-    const workbook = XLSX.readFile(EXCEL_FILE);
+    if (!fs.existsSync(filePath)) {
+      throw new Error(`Excel file not found at: ${filePath}`);
+    }
 
-    const sheet = workbook.Sheets["Location_Population"];
+    const workbook = XLSX.readFile(filePath);
 
-    if (!sheet) {
+    const worksheet = workbook.Sheets["Location_Population"];
+
+    if (!worksheet) {
       throw new Error(
         "Location_Population sheet not found in task1-2.xlsx"
       );
     }
 
-    const rows = XLSX.utils.sheet_to_json(sheet, {
+    const rows = XLSX.utils.sheet_to_json(worksheet, {
       defval: null,
-      blankrows: false
+      blankrows: false,
     });
 
-    console.log("Rows read from Excel: " + rows.length);
+    console.log(`Rows found in Excel: ${rows.length}`);
 
-    let batch = [];
+    await connectDB();
+
     let processed = 0;
     let skipped = 0;
 
     for (const row of rows) {
-
       if (
         !row.State &&
         !row.District &&
@@ -61,98 +56,103 @@ async function seedLocationPopulation() {
         continue;
       }
 
-      const document = {
-        state: row.State
-          ? String(row.State).trim()
-          : null,
+      const state = row.State
+        ? String(row.State).trim()
+        : undefined;
 
-        district: row.District
-          ? String(row.District).trim()
-          : null,
+      const district = row.District
+        ? String(row.District).trim()
+        : undefined;
 
-        subDistrict: row.Subdistt
-          ? String(row.Subdistt).trim()
-          : null,
+      const subDistrict = row.Subdistt
+        ? String(row.Subdistt).trim()
+        : undefined;
 
-        name: row.Name
-          ? String(row.Name).trim()
-          : null,
+      const village = row["Town/Village"]
+        ? String(row["Town/Village"]).trim()
+        : undefined;
 
-        townVillage: row["Town/Village"]
-          ? String(row["Town/Village"]).trim()
-          : null,
+      if (!state || !district) {
+        skipped++;
+        continue;
+      }
+
+      const locationData = {
+        state,
+        district,
+        subDistrict,
+        village,
 
         population:
           row.population !== null &&
           row.population !== ""
             ? Number(row.population)
-            : null,
+            : 0,
 
         malePopulation:
           row.TOT_M !== null &&
           row.TOT_M !== ""
             ? Number(row.TOT_M)
-            : null,
+            : 0,
 
         femalePopulation:
           row.TOT_F !== null &&
           row.TOT_F !== ""
             ? Number(row.TOT_F)
-            : null,
+            : 0,
 
-        mainHouseholds:
+        households:
           row.MAIN_HH_P !== null &&
           row.MAIN_HH_P !== ""
             ? Number(row.MAIN_HH_P)
-            : null,
+            : 0,
 
         censusYear:
           row["census year"] !== null &&
           row["census year"] !== ""
             ? Number(row["census year"])
-            : null
+            : 2011,
       };
 
-      batch.push(document);
+      /*
+       * Use the Census hierarchy as the unique identity.
+       * We intentionally do NOT create duplicate documents
+       * for the repeated aggregate records.
+       */
 
-      if (batch.length === BATCH_SIZE) {
+      await Location.updateOne(
+        {
+          state: locationData.state,
+          district: locationData.district,
+          subDistrict: locationData.subDistrict,
+          village: locationData.village,
+        },
+        {
+          $set: locationData,
+        },
+        {
+          upsert: true,
+        }
+      );
 
-        await LocationPopulation.insertMany(batch);
+      processed++;
 
-        processed = processed + batch.length;
-
-        console.log("Inserted: " + processed);
-
-        batch = [];
+      if (processed % 1000 === 0) {
+        console.log(`Processed: ${processed}`);
       }
     }
 
-    if (batch.length > 0) {
-
-      await LocationPopulation.insertMany(batch);
-
-      processed = processed + batch.length;
-
-      console.log("Inserted: " + processed);
-    }
-
     console.log("=================================");
-    console.log("Location population seeding completed!");
-    console.log("Processed: " + processed);
-    console.log("Skipped: " + skipped);
+    console.log("Location seeding completed!");
+    console.log(`Processed: ${processed}`);
+    console.log(`Skipped: ${skipped}`);
     console.log("=================================");
 
+    process.exit(0);
   } catch (error) {
-
-    console.error("Seeding failed:");
-    console.error(error);
-
-  } finally {
-
-    await mongoose.connection.close();
-
-    console.log("MongoDB connection closed");
+    console.error("Error seeding locations:", error);
+    process.exit(1);
   }
 }
 
-seedLocationPopulation();
+seedLocations();

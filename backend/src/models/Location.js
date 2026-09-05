@@ -8,6 +8,7 @@ const locationSchema = new mongoose.Schema(
       trim: true,
     },
 
+   
     district: {
       type: String,
       required: true,
@@ -38,5 +39,6 @@ const locationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 
 export default mongoose.model("Location", locationSchema);
