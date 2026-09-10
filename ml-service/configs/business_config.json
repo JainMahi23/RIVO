@@ -1,0 +1,211 @@
+{
+    "dairy": {
+        "name": "Dairy Farming",
+        "category": "livestock",
+        "required_capital_min": 100000,
+        "required_capital_max": 1000000,
+        "required_resources": [
+            "water",
+            "land"
+        ],
+        "required_skills": [
+            "animal_handling",
+            "farming"
+        ],
+        "risk_categories": [
+            "operational",
+            "market"
+        ],
+        "important_features": [
+            "water",
+            "land",
+            "demand",
+            "competition",
+            "capital",
+            "skill"
+        ]
+    },
+
+    "poultry": {
+        "name": "Poultry Farming",
+        "category": "livestock",
+        "required_capital_min": 75000,
+        "required_capital_max": 750000,
+        "required_resources": [
+            "land",
+            "water"
+        ],
+        "required_skills": [
+            "farming",
+            "animal_handling"
+        ],
+        "risk_categories": [
+            "operational",
+            "market"
+        ],
+        "important_features": [
+            "water",
+            "land",
+            "demand",
+            "competition",
+            "capital",
+            "skill"
+        ]
+    },
+
+    "goat_farming": {
+        "name": "Goat Farming",
+        "category": "livestock",
+        "required_capital_min": 75000,
+        "required_capital_max": 600000,
+        "required_resources": [
+            "land",
+            "water"
+        ],
+        "required_skills": [
+            "farming",
+            "animal_handling"
+        ],
+        "risk_categories": [
+            "operational",
+            "market"
+        ],
+        "important_features": [
+            "water",
+            "land",
+            "demand",
+            "competition",
+            "capital",
+            "skill"
+        ]
+    },
+
+    "vegetable_farming": {
+        "name": "Vegetable Farming",
+        "category": "agriculture",
+        "required_capital_min": 50000,
+        "required_capital_max": 500000,
+        "required_resources": [
+            "land",
+            "water"
+        ],
+        "required_skills": [
+            "farming"
+        ],
+        "risk_categories": [
+            "weather",
+            "market"
+        ],
+        "important_features": [
+            "water",
+            "land",
+            "demand",
+            "competition",
+            "capital",
+            "skill"
+        ]
+    },
+
+    "food_processing": {
+        "name": "Food Processing",
+        "category": "manufacturing",
+        "required_capital_min": 100000,
+        "required_capital_max": 1000000,
+        "required_resources": [
+            "workspace",
+            "electricity"
+        ],
+        "required_skills": [
+            "food_processing"
+        ],
+        "risk_categories": [
+            "market",
+            "regulatory"
+        ],
+        "important_features": [
+            "demand",
+            "competition",
+            "capital",
+            "accessibility",
+            "skill"
+        ]
+    },
+
+    "tailoring": {
+        "name": "Tailoring",
+        "category": "service",
+        "required_capital_min": 30000,
+        "required_capital_max": 250000,
+        "required_resources": [
+            "workspace",
+            "electricity"
+        ],
+        "required_skills": [
+            "tailoring"
+        ],
+        "risk_categories": [
+            "market",
+            "competition"
+        ],
+        "important_features": [
+            "population",
+            "demand",
+            "competition",
+            "capital",
+            "skill",
+            "accessibility"
+        ]
+    },
+
+    "kirana": {
+        "name": "Kirana / Retail Store",
+        "category": "retail",
+        "required_capital_min": 100000,
+        "required_capital_max": 750000,
+        "required_resources": [
+            "workspace",
+            "electricity"
+        ],
+        "required_skills": [
+            "retail_management"
+        ],
+        "risk_categories": [
+            "market",
+            "competition"
+        ],
+        "important_features": [
+            "population",
+            "demand",
+            "competition",
+            "capital",
+            "skill",
+            "accessibility"
+        ]
+    },
+
+    "food_stall": {
+        "name": "Food Stall",
+        "category": "food_service",
+        "required_capital_min": 50000,
+        "required_capital_max": 300000,
+        "required_resources": [
+            "workspace",
+            "water"
+        ],
+        "required_skills": [
+            "cooking"
+        ],
+        "risk_categories": [
+            "market",
+            "regulatory"
+        ],
+        "important_features": [
+            "population",
+            "demand",
+            "competition",
+            "capital",
+            "skill",
+            "accessibility"
+        ]
+    }
+}

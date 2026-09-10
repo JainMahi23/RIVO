@@ -1,0 +1,8 @@
+{
+    "demand": 0.30,
+    "competition": 0.20,
+    "resource": 0.15,
+    "capital": 0.15,
+    "accessibility": 0.10,
+    "skill": 0.10
+}
