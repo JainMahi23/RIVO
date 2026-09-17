@@ -3,8 +3,10 @@ import { Router } from "express";
 import {
   createAssessment,
   getAssessments,
+  getActiveAssessment,
   getAssessmentById,
   updateAssessment,
+  patchAssessmentStep,
   deleteAssessment,
   submitAssessment,
 } from "../controllers/assessmentController.js";
@@ -19,11 +21,17 @@ router.post("/", protect, createAssessment);
 // GET /api/assessments
 router.get("/", protect, getAssessments);
 
+// GET /api/assessments/active
+router.get("/active", protect, getActiveAssessment);
+
 // GET /api/assessments/:id
 router.get("/:id", protect, getAssessmentById);
 
 // PUT /api/assessments/:id
 router.put("/:id", protect, updateAssessment);
+
+// PATCH /api/assessments/:id/steps/:step
+router.patch("/:id/steps/:step", protect, patchAssessmentStep);
 
 // DELETE /api/assessments/:id
 router.delete("/:id", protect, deleteAssessment);

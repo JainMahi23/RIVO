@@ -8,7 +8,7 @@ export const env = {
   port: process.env.PORT || 5000,
   nodeEnv: process.env.NODE_ENV || "development",
   mongoUri: process.env.MONGO_URI || "",
-  jwtSecret: process.env.JWT_SECRET || "",
+  jwtSecret: process.env.JWT_SECRET || "rivo_dev_secret_2026_change_later",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "7d",
   cookieName: process.env.COOKIE_NAME || "rivo_token",
   clientOrigin: process.env.CLIENT_ORIGIN || "http://localhost:5173",

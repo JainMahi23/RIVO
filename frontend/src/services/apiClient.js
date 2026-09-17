@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const BASE_API_URL = import.meta.env.VITE_API_URL || '/api';
 export const BASE_ML_URL = import.meta.env.VITE_ML_API_URL || 'http://localhost:8000/api/v1/ml';
 export const ENABLE_FALLBACK = import.meta.env.VITE_ENABLE_MOCK_FALLBACK !== 'false';
 

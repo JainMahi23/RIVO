@@ -16,7 +16,7 @@ const authAPI = {
     try {
       return await apiClient.post('/auth/otp/request', { mobile });
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { message: 'OTP 123456 generated (Fallback Mode enabled)', isFallback: true };
       }
       throw err;
@@ -27,7 +27,7 @@ const authAPI = {
     try {
       return await apiClient.post('/auth/otp/verify', { mobile, otp });
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { user: { ...fallbackUser, mobile }, token: 'mock-jwt-token-123', isFallback: true };
       }
       throw err;
@@ -38,7 +38,7 @@ const authAPI = {
     try {
       return await apiClient.post('/auth/login', { identifier, password });
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { user: { ...fallbackUser, name: identifier || 'Ramesh Kumar' }, token: 'mock-jwt-token-123', isFallback: true };
       }
       throw err;
@@ -49,7 +49,7 @@ const authAPI = {
     try {
       return await apiClient.post('/auth/register', payload);
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { user: { ...fallbackUser, name: payload.fullName || payload.name, mobile: payload.mobile, village: payload.village }, token: 'mock-jwt-token-123', isFallback: true };
       }
       throw err;
@@ -60,7 +60,7 @@ const authAPI = {
     try {
       return await apiClient.post('/auth/logout');
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { message: 'Logged out successfully' };
       }
       throw err;
@@ -71,7 +71,7 @@ const authAPI = {
     try {
       return await apiClient.get('/auth/me');
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { user: fallbackUser, isFallback: true };
       }
       throw err;
@@ -82,7 +82,7 @@ const authAPI = {
     try {
       return await apiClient.patch('/auth/profile', payload);
     } catch (err) {
-      if (ENABLE_FALLBACK || err.isOffline) {
+      if (err.isOffline && ENABLE_FALLBACK) {
         return { user: { ...fallbackUser, ...payload }, isFallback: true };
       }
       throw err;

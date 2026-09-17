@@ -93,3 +93,56 @@ export async function getMarketAnalysis(req, res, next) {
     next(error);
   }
 }
+
+export async function getLocationSummary(req, res) {
+  res.json({
+    summary: {
+      description: "Semi-urban commercial cluster with high footfall during morning & evening hours.",
+      population: 20800,
+      radiusKm: 3,
+      nearbyBusinessCount: 12,
+      avgHouseholdSize: 4.6,
+      nearbyBusinesses: [
+        { name: "Palampur Farmers Co-op", type: "Agriculture", distanceKm: 0.4 },
+        { name: "Gupta General Merchant", type: "Kirana", distanceKm: 0.8 },
+        { name: "Shiva Machinery Store", type: "Hardware", distanceKm: 1.2 },
+      ],
+    },
+  });
+}
+
+export async function getDemandScore(req, res) {
+  res.json({
+    series: [
+      { label: "Mon", value: 65 },
+      { label: "Tue", value: 85 },
+      { label: "Wed", value: 75 },
+      { label: "Thu", value: 110 },
+      { label: "Fri", value: 95 },
+      { label: "Sat", value: 140 },
+      { label: "Sun", value: 160 },
+    ],
+  });
+}
+
+export async function getCompetitorDensity(req, res) {
+  res.json({
+    competitors: [
+      { name: "General Kirana Stores", count: 5, risk: "Medium" },
+      { name: "Agro-Inputs & Seeds", count: 2, risk: "Low" },
+      { name: "Hardware & Tools", count: 3, risk: "Low" },
+      { name: "Garments & Tailoring", count: 2, risk: "Low" },
+    ],
+  });
+}
+
+export async function getNearbyBusinessTypes(req, res) {
+  res.json({
+    businessTypes: [
+      "Kirana & Agro-Store",
+      "Cold-Press Oil Unit",
+      "Solar Service Hub",
+      "Dairy Collection Point",
+    ],
+  });
+}

@@ -27,18 +27,21 @@ export function AuthProvider({ children }) {
 
   const login = async (identifier, password) => {
     const res = await authAPI.loginWithPassword(identifier, password);
+    if (res?.token) localStorage.setItem('rivo_auth_token', res.token);
     setUser(res?.user || res);
     return res;
   };
 
   const verifyOtpLogin = async (mobile, otp) => {
     const res = await authAPI.verifyOtp(mobile, otp);
+    if (res?.token) localStorage.setItem('rivo_auth_token', res.token);
     setUser(res?.user || res);
     return res;
   };
 
   const register = async (payload) => {
     const res = await authAPI.register(payload);
+    if (res?.token) localStorage.setItem('rivo_auth_token', res.token);
     setUser(res?.user || res);
     return res;
   };
@@ -47,6 +50,7 @@ export function AuthProvider({ children }) {
     try {
       await authAPI.logout();
     } finally {
+      localStorage.removeItem('rivo_auth_token');
       setUser(null);
     }
   };

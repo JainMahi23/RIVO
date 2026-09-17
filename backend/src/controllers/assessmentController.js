@@ -129,6 +129,35 @@ export async function deleteAssessment(req, res, next) {
   }
 }
 
+export async function getActiveAssessment(req, res, next) {
+  try {
+    const assessments = await getUserAssessments(req.user._id);
+    const active = assessments.find((a) => a.status === "DRAFT") || assessments[0] || null;
+
+    res.json({
+      assessment: active,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function patchAssessmentStep(req, res, next) {
+  try {
+    const { id, step } = req.params;
+    const updatePayload = { [step]: req.body };
+
+    const assessment = await updateUserAssessment(req.user._id, id, updatePayload);
+
+    res.json({
+      message: `Step ${step} updated successfully`,
+      assessment,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function submitAssessment(req, res, next) {
   try {
     const assessment = await submitAssessmentService(

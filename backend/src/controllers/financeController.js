@@ -122,3 +122,29 @@ export async function calculateFinance(req, res, next) {
     next(err);
   }
 }
+
+export async function getFeasibilityReport(req, res) {
+  res.json({
+    report: {
+      overallScore: 86,
+      financialScore: 88,
+      marketScore: 82,
+      metrics: {
+        initialInvestment: 350000,
+        expectedMonthlyRevenue: 120000,
+        expectedMonthlyExpense: 75000,
+        monthlyNetProfit: 45000,
+        paybackPeriodMonths: 8,
+        breakEvenUnitsPerMonth: 210,
+        recommendedLoanAmount: 250000,
+        debtServiceCoverageRatio: 2.14,
+      },
+      swot: {
+        strengths: ["Low fixed operational overhead", "Healthy gross margin (> 35%)"],
+        weaknesses: ["Vulnerable to seasonal agricultural cycles"],
+        opportunities: ["PMEGP subsidy covers 35% margin money"],
+        threats: ["Local credit extension defaults"],
+      },
+    },
+  });
+}
