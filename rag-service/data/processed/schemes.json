@@ -1,0 +1,149 @@
+[
+  {
+    "scheme_id": "PMFME",
+    "name": "Pradhan Mantri Formalisation of Micro Food Processing Enterprises Scheme",
+    "level": "central",
+    "state": null,
+    "ministry": "Ministry of Food Processing Industries",
+    "category": "food_processing",
+    "description": "PMFME provides financial, technical and business support for setting up or upgrading micro food processing enterprises.",
+    "eligibility": [
+      "Supports new or existing micro food processing enterprises.",
+      "Individual beneficiaries can receive credit-linked capital subsidy subject to scheme conditions.",
+      "SHGs, FPOs and cooperatives can receive support under applicable components."
+    ],
+    "benefits": [
+      "Credit-linked capital subsidy of 35% of eligible project cost for eligible individual units, subject to a maximum of Rs. 10 lakh per unit.",
+      "Support for common infrastructure is available under applicable components.",
+      "SHG members can receive seed capital support under applicable conditions."
+    ],
+    "required_documents": [
+      "Applicant and project documents as specified by the current PMFME application process."
+    ],
+    "application_process": [
+      "Check eligibility on the official PMFME portal.",
+      "Submit the application through the prescribed PMFME process.",
+      "Loan-linked support is subject to project and lender approval."
+    ],
+    "official_source": "https://pmfme.mofpi.gov.in/",
+    "last_verified": "2026-09-11"
+  },
+  {
+    "scheme_id": "PMEGP",
+    "name": "Prime Minister's Employment Generation Programme",
+    "level": "central",
+    "state": null,
+    "ministry": "Ministry of Micro, Small & Medium Enterprises",
+    "category": "micro_enterprise",
+    "description": "PMEGP supports new self-employment ventures and micro enterprises to generate employment in rural and urban areas.",
+    "eligibility": [
+      "Individual beneficiaries must be above 18 years of age.",
+      "There is no income ceiling for assistance for setting up projects under PMEGP.",
+      "For projects above Rs. 10 lakh in manufacturing or above Rs. 5 lakh in business or service, the beneficiary should have at least VIII standard pass qualification.",
+      "Only one person from one family is eligible for financial assistance for setting up a new enterprise."
+    ],
+    "benefits": [
+      "Provides credit-linked financial assistance for eligible new micro enterprises.",
+      "Supports self-employment and employment generation."
+    ],
+    "required_documents": [
+      "Applicant and project documents required by the official PMEGP application process."
+    ],
+    "application_process": [
+      "Apply through the official PMEGP portal.",
+      "Submit the prescribed application and project information.",
+      "Project appraisal and financing are subject to the implementing agency and lending institution."
+    ],
+    "official_source": "https://www.pmegp.msme.gov.in/",
+    "last_verified": "2026-09-11"
+  },
+  {
+    "scheme_id": "PMMY",
+    "name": "Pradhan Mantri MUDRA Yojana",
+    "level": "central",
+    "state": null,
+    "ministry": "Ministry of Finance, Department of Financial Services",
+    "category": "business_finance",
+    "description": "PMMY provides institutional collateral-free credit to eligible micro and small businesses and individuals for income-generating activities. It covers manufacturing, trading and service activities, including activities allied to agriculture such as dairy, poultry and beekeeping. Both term loan and working capital requirements can be met.",
+    "eligibility": [
+      "Eligible individuals and micro or small businesses can seek credit for permitted income-generating activities.",
+      "Permitted activities include manufacturing, trading, services and activities allied to agriculture such as dairy, poultry and beekeeping.",
+      "Loan approval is subject to the lending institution's assessment and applicable PMMY conditions."
+    ],
+    "benefits": [
+      "Shishu loans are up to Rs. 50,000.",
+      "Kishor loans are above Rs. 50,000 and up to Rs. 5 lakh.",
+      "Tarun loans are above Rs. 5 lakh and up to Rs. 10 lakh.",
+      "Tarun Plus loans are above Rs. 10 lakh and up to Rs. 20 lakh for eligible entrepreneurs who have successfully repaid a previous Tarun-category loan.",
+      "Collateral is not required under PMMY."
+    ],
+    "required_documents": [
+      "Documents vary by lending institution and borrower profile.",
+      "Applicants should confirm current requirements with the participating lender."
+    ],
+    "application_process": [
+      "Approach an eligible participating lending institution.",
+      "Submit the required borrower and business information.",
+      "Loan sanction is subject to lender appraisal and applicable PMMY conditions."
+    ],
+    "official_source": "https://financialservices.gov.in/pradhan-mantri-mudra-yojana-pmmy",
+    "last_verified": "2026-09-11"
+  },
+  {
+    "scheme_id": "SISFS",
+    "name": "Startup India Seed Fund Scheme",
+    "level": "central",
+    "state": null,
+    "ministry": "Department for Promotion of Industry and Internal Trade",
+    "category": "startup_finance",
+    "description": "The Startup India Seed Fund Scheme provides financial assistance to eligible early-stage startups for proof of concept, prototype development, product trials, market entry and commercialization through eligible incubators.",
+    "eligibility": [
+      "The startup must satisfy the DPIIT recognition requirements.",
+      "The startup must satisfy the incorporation-age requirement specified by the current scheme guidelines.",
+      "The business idea should have potential for market fit, viable commercialization and scaling.",
+      "Applicants must verify current eligibility requirements on the official portal."
+    ],
+    "benefits": [
+      "Financial assistance can support proof of concept, prototype development, product trials, market entry and commercialization.",
+      "Selected startups receive funding through eligible incubators."
+    ],
+    "required_documents": [
+      "Startup and application documents required by the official SISFS application process."
+    ],
+    "application_process": [
+      "Apply through the official Startup India Seed Fund Scheme portal when applications are available.",
+      "Applications are evaluated according to the scheme process.",
+      "Selected startups receive funding through eligible incubators."
+    ],
+    "official_source": "https://seedfund.startupindia.gov.in/",
+    "last_verified": "2026-09-11"
+  },
+  {
+    "scheme_id": "PM_KISAN",
+    "name": "Pradhan Mantri Kisan Samman Nidhi",
+    "level": "central",
+    "state": null,
+    "ministry": "Department of Agriculture and Farmers Welfare",
+    "category": "farmer_support",
+    "description": "PM-KISAN provides income support to eligible land-holding farmer families according to the scheme guidelines.",
+    "eligibility": [
+      "The scheme provides support to eligible land-holding farmer families as defined by the scheme.",
+      "State and UT administrations identify eligible farmer families according to scheme guidelines.",
+      "Exclusion categories apply and must be checked on the official PM-KISAN portal."
+    ],
+    "benefits": [
+      "Eligible farmer families receive income support of Rs. 6,000 per year in three equal installments."
+    ],
+    "required_documents": [
+      "Registration and verification requirements apply.",
+      "Applicants should check the official PM-KISAN portal for current requirements."
+    ],
+    "application_process": [
+      "Use the official PM-KISAN portal for registration and status checking.",
+      "Complete the required identity and farmer information verification.",
+      "Check the official portal for current eligibility and exclusion rules."
+    ],
+    "official_source": "https://pmkisan.gov.in/",
+    "last_verified": "2026-09-11"
+  }
+]
