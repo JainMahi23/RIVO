@@ -5,6 +5,8 @@ import {
   getAssessments,
   getAssessmentById,
   updateAssessment,
+  deleteAssessment,
+  submitAssessment,
 } from "../controllers/assessmentController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -22,5 +24,11 @@ router.get("/:id", protect, getAssessmentById);
 
 // PUT /api/assessments/:id
 router.put("/:id", protect, updateAssessment);
+
+// DELETE /api/assessments/:id
+router.delete("/:id", protect, deleteAssessment);
+
+// POST /api/assessments/:id/submit
+router.post("/:id/submit", protect, submitAssessment);
 
 export default router;
