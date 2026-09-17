@@ -1,13 +1,24 @@
-// Single shared button so spacing/color/states stay consistent
-// instead of every module re-implementing its own.
-export default function Button({ children, variant = "primary", ...props }) {
-  const base = "px-4 py-2 rounded text-sm font-medium transition-colors";
-  const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
-    secondary: "bg-gray-100 text-gray-800 hover:bg-gray-200",
-  };
+const VARIANTS = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  ghost: 'btn-ghost',
+};
+
+export default function Button({
+  children,
+  variant = 'primary',
+  icon: Icon,
+  loading = false,
+  className = '',
+  ...rest
+}) {
   return (
-    <button className={`${base} ${variants[variant] || variants.primary}`} {...props}>
+    <button className={`${VARIANTS[variant]} ${className}`} disabled={loading} {...rest}>
+      {loading ? (
+        <span className="h-4 w-4 rounded-full border-2 border-current/30 border-t-current animate-spin" />
+      ) : (
+        Icon && <Icon size={16} strokeWidth={2.25} />
+      )}
       {children}
     </button>
   );

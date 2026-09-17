@@ -1,20 +1,16 @@
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar.jsx";
-import Topbar from "./Topbar.jsx";
-import ErrorBoundary from "../common/ErrorBoundary.jsx";
+import { useState } from 'react';
+import Sidebar from './Sidebar.jsx';
+import Topbar from './Topbar.jsx';
 
-// Shell for every authenticated page: sidebar + topbar + routed content.
-export default function AppLayout() {
+export default function AppLayout({ children }) {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 min-h-screen flex flex-col">
-        <Topbar />
-        <main className="flex-1 p-4">
-          <ErrorBoundary>
-            <Outlet />
-          </ErrorBoundary>
-        </main>
+    <div className="min-h-screen flex bg-cream">
+      <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
+      <div className="flex-1 min-w-0 flex flex-col">
+        <Topbar onOpenMobileNav={() => setMobileNavOpen(true)} />
+        <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto">{children}</main>
       </div>
     </div>
   );
