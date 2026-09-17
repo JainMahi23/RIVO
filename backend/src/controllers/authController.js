@@ -8,7 +8,7 @@ import {
 
 export async function register(req, res, next) {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, phone } = req.body;
 
     if (!name || !email || !password) {
       return res
@@ -33,6 +33,7 @@ export async function register(req, res, next) {
     const user = await User.create({
       name,
       email,
+      phone,
       passwordHash: password,
     });
 
@@ -41,10 +42,13 @@ export async function register(req, res, next) {
     setTokenCookie(res, token);
 
     res.status(201).json({
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        role: user.role,
       },
     });
   } catch (err) {
@@ -75,10 +79,13 @@ export async function login(req, res, next) {
     setTokenCookie(res, token);
 
     res.json({
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        role: user.role,
       },
     });
   } catch (err) {
@@ -100,6 +107,8 @@ export async function getMe(req, res) {
       id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      phone: req.user.phone,
+      role: req.user.role,
     },
   });
 }

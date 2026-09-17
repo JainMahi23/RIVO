@@ -18,8 +18,8 @@ export async function getUserAssessments(userId) {
   return Assessment.find({
     user: userId,
   })
-    .populate("businessCategory", "name sector")
-    .populate("location", "village block district state")
+    .populate("businessCategory", "name sector slug")
+    .populate("location", "village subDistrict district state pincode")
     .sort({ createdAt: -1 });
 }
 
@@ -33,17 +33,44 @@ export async function getUserAssessmentById(userId, assessmentId) {
 }
 
 export async function updateUserAssessment(userId, assessmentId, data) {
+  // Prevent overwriting critical fields
+  const { user, _id, status, ...safeData } = data;
+
   return Assessment.findOneAndUpdate(
     {
       _id: assessmentId,
       user: userId,
+      status: { $in: ["DRAFT", "SUBMITTED"] },
     },
     {
-      $set: data,
+      $set: safeData,
     },
     {
       new: true,
       runValidators: true,
+    }
+  );
+}
+
+export async function deleteUserAssessment(userId, assessmentId) {
+  return Assessment.findOneAndDelete({
+    _id: assessmentId,
+    user: userId,
+  });
+}
+
+export async function submitAssessment(userId, assessmentId) {
+  return Assessment.findOneAndUpdate(
+    {
+      _id: assessmentId,
+      user: userId,
+      status: "DRAFT",
+    },
+    {
+      $set: { status: "SUBMITTED" },
+    },
+    {
+      new: true,
     }
   );
 }

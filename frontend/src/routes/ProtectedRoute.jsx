@@ -1,14 +1,26 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
+import AppLayout from '../components/layout/AppLayout.jsx';
 
-// Placeholder route guard. Real auth check (token validation, refresh,
-// redirect-with-return-url, etc.) will be implemented in the auth module.
-// For now this always allows access so the rest of the app can be built
-// and tested without a working login flow.
 export default function ProtectedRoute() {
-  const isAuthenticated = true; // TODO: replace with real auth state
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cream">
+        <div className="h-10 w-10 rounded-full border-4 border-forest/15 border-t-gold animate-spin" />
+      </div>
+    );
   }
-  return <Outlet />;
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return (
+    <AppLayout>
+      <Outlet />
+    </AppLayout>
+  );
 }

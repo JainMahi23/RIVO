@@ -2,5 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global base styles go here. Kept minimal on purpose —
-   component-level styling should live with the component. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream text-ink font-sans antialiased selection:bg-gold/30 selection:text-forest;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-forest tracking-tight;
+  }
+  :focus-visible {
+    outline: 2px solid #D49B35;
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-5 py-2.5 font-semibold text-sm transition-all duration-200 shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-gold text-forest-dark hover:bg-gold-dark shadow-gold/20 hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply btn bg-forest text-cream hover:bg-forest-light shadow-forest/15 hover:shadow-md;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-forest border border-forest/20 hover:bg-forest/5 hover:border-forest/40;
+  }
+  .card {
+    @apply bg-white/90 backdrop-blur-sm rounded-card shadow-card border border-forest/10 p-5 transition-all duration-200 hover:border-forest/20;
+  }
+  .card-hover {
+    @apply card hover:-translate-y-0.5 hover:shadow-lg hover:border-gold/30;
+  }
+  .input {
+    @apply w-full rounded-xl border border-forest/15 bg-white px-4 py-2.5 text-sm text-ink placeholder:text-ink/40 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all duration-150;
+  }
+  .label {
+    @apply block text-sm font-semibold text-forest/90 mb-1.5;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-pill text-xs font-semibold tracking-wide uppercase;
+  }
+  .badge-forest {
+    @apply badge bg-forest/10 text-forest border border-forest/20;
+  }
+  .badge-gold {
+    @apply badge bg-gold/15 text-gold-dark border border-gold/30;
+  }
+  .badge-terracotta {
+    @apply badge bg-terracotta/15 text-terracotta-dark border border-terracotta/30;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(24, 67, 47, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(24, 67, 47, 0.2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 155, 53, 0.5);
+}
+
+/* Leaflet map styles */
+.leaflet-container {
+  font-family: 'Manrope', system-ui, sans-serif;
+  background: #EFEDE3;
+  z-index: 0;
+  border-radius: 12px;
+}
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10;
+}
+.leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.rivo-pin-icon {
+  background: transparent;
+  border: none;
+}

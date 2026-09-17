@@ -1,8 +1,15 @@
-import Location from "../models/Location.js";
+import {
+  searchLocations,
+  getLocationById as getLocationByIdService,
+  createLocation as createLocationService,
+} from "../services/location/locationService.js";
 
+/**
+ * POST /api/locations
+ */
 export async function createLocation(req, res, next) {
   try {
-    const location = await Location.create(req.body);
+    const location = await createLocationService(req.body);
 
     res.status(201).json({
       success: true,
@@ -14,23 +21,37 @@ export async function createLocation(req, res, next) {
   }
 }
 
+/**
+ * GET /api/locations?search=&state=&district=&pincode=&page=1&limit=20
+ */
 export async function getLocations(req, res, next) {
   try {
-    const locations = await Location.find().sort({ createdAt: -1 });
+    const { search, state, district, pincode, page, limit } = req.query;
 
-    res.status(200).json({
+    const result = await searchLocations({
+      search,
+      state,
+      district,
+      pincode,
+      page,
+      limit,
+    });
+
+    res.json({
       success: true,
-      count: locations.length,
-      data: locations,
+      ...result,
     });
   } catch (error) {
     next(error);
   }
 }
 
+/**
+ * GET /api/locations/:id
+ */
 export async function getLocationById(req, res, next) {
   try {
-    const location = await Location.findById(req.params.id);
+    const location = await getLocationByIdService(req.params.id);
 
     if (!location) {
       return res.status(404).json({
@@ -39,7 +60,7 @@ export async function getLocationById(req, res, next) {
       });
     }
 
-    res.status(200).json({
+    res.json({
       success: true,
       data: location,
     });

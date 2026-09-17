@@ -1,7 +1,11 @@
 import Location from "../models/Location.js";
+import Assessment from "../models/Assessment.js";
 import MarketAnalysis from "../models/MarketAnalysis.js";
 import { generateMarketAnalysis } from "../services/market/index.js";
 
+/**
+ * POST /api/market/analyze
+ */
 export async function analyzeMarket(req, res, next) {
   try {
     const { assessmentId, locationId } = req.body;
@@ -13,6 +17,20 @@ export async function analyzeMarket(req, res, next) {
       });
     }
 
+    // Verify the assessment belongs to the requesting user
+    if (req.user) {
+      const assessment = await Assessment.findOne({
+        _id: assessmentId,
+        user: req.user._id,
+      });
+      if (!assessment) {
+        return res.status(404).json({
+          success: false,
+          message: "Assessment not found or not owned by you",
+        });
+      }
+    }
+
     const location = await Location.findById(locationId);
 
     if (!location) {
@@ -22,9 +40,13 @@ export async function analyzeMarket(req, res, next) {
       });
     }
 
+    // Fix: use the correct coordinate field names from Location model
+    const latitude = location.coordinates?.lat ?? null;
+    const longitude = location.coordinates?.lng ?? null;
+
     const analysis = await generateMarketAnalysis({
-      latitude: location.coordinates.latitude,
-      longitude: location.coordinates.longitude,
+      latitude,
+      longitude,
       population: location.population || 0,
       households: location.households || 0,
       radiusKm: 5,
@@ -45,6 +67,9 @@ export async function analyzeMarket(req, res, next) {
   }
 }
 
+/**
+ * GET /api/market/assessment/:assessmentId
+ */
 export async function getMarketAnalysis(req, res, next) {
   try {
     const { assessmentId } = req.params;
@@ -60,7 +85,7 @@ export async function getMarketAnalysis(req, res, next) {
       });
     }
 
-    res.status(200).json({
+    res.json({
       success: true,
       data: analysis,
     });

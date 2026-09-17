@@ -3,6 +3,8 @@ import {
   getUserAssessments,
   getUserAssessmentById,
   updateUserAssessment,
+  deleteUserAssessment,
+  submitAssessment as submitAssessmentService,
 } from "../services/assessment/assessmentService.js";
 
 export async function createAssessment(req, res, next) {
@@ -93,12 +95,55 @@ export async function updateAssessment(req, res, next) {
 
     if (!assessment) {
       return res.status(404).json({
-        message: "Assessment not found",
+        message: "Assessment not found or cannot be updated",
       });
     }
 
     res.json({
       message: "Assessment updated successfully",
+      assessment,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function deleteAssessment(req, res, next) {
+  try {
+    const assessment = await deleteUserAssessment(
+      req.user._id,
+      req.params.id
+    );
+
+    if (!assessment) {
+      return res.status(404).json({
+        message: "Assessment not found",
+      });
+    }
+
+    res.json({
+      message: "Assessment deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function submitAssessment(req, res, next) {
+  try {
+    const assessment = await submitAssessmentService(
+      req.user._id,
+      req.params.id
+    );
+
+    if (!assessment) {
+      return res.status(404).json({
+        message: "Assessment not found or not in DRAFT status",
+      });
+    }
+
+    res.json({
+      message: "Assessment submitted successfully",
       assessment,
     });
   } catch (err) {
