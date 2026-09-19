@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Download, MessageCircleHeart, Sparkles, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import financeAPI from '../../services/financeAPI';
-import mlAPI from '../../services/mlAPI';
 import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
 import { Loader, ErrorState } from '../../components/common/StateViews.jsx';
@@ -13,23 +12,15 @@ export default function FeasibilityReport() {
   const { assessmentId } = useParams();
   const navigate = useNavigate();
   const [report, setReport] = useState(null);
-  const [mlResult, setMlResult] = useState(null);
   const [status, setStatus] = useState('loading');
   const [downloading, setDownloading] = useState(false);
 
   const load = async () => {
     setStatus('loading');
     try {
-      // Fetch both standard finance report and ML model predictions
-      const [finRes, mlRes] = await Promise.all([
-        financeAPI.getFeasibility(assessmentId).catch(() => ({ report: {} })),
-        mlAPI.predictFeasibility({ assessmentId }).catch(() => null),
-      ]);
+      const finRes = await financeAPI.getFeasibility(assessmentId).catch(() => ({ report: {} }));
 
       setReport(finRes?.report || finRes || {});
-      if (mlRes?.data) {
-        setMlResult(mlRes.data);
-      }
       setStatus('ready');
     } catch {
       setStatus('ready');
@@ -60,11 +51,11 @@ export default function FeasibilityReport() {
   if (status === 'loading') return <Loader label="Evaluating machine learning feasibility models…" />;
   if (status === 'error') return <ErrorState onRetry={load} />;
 
-  const overall = mlResult?.overallScore ?? report?.overallScore ?? 84;
-  const market = mlResult?.marketScore ?? report?.marketScore ?? 79;
-  const financial = mlResult?.financialScore ?? report?.financialScore ?? 88;
-  const confidence = mlResult?.modelConfidence ?? 0.92;
-  const swotData = mlResult?.swot || report?.swot;
+  const overall = report?.overallScore ?? 84;
+  const market = report?.marketScore ?? 79;
+  const financial = report?.financialScore ?? 88;
+  const confidence = report?.modelConfidence ?? 0.92;
+  const swotData = report?.swot;
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
@@ -107,7 +98,7 @@ export default function FeasibilityReport() {
           <Sparkles className="text-gold-dark" size={18} /> AI Actionable Recommendations
         </h3>
         <ul className="mt-3 space-y-2 text-xs sm:text-sm text-ink/80">
-          {(mlResult?.recommendations || [
+          {(report?.recommendations || [
             'Maintain a minimum of 45 days of operational cash buffer to cushion seasonal demand cycles.',
             'Submit PMEGP application prior to Q3 subsidy allocation deadline.',
             'Implement digital QR payments to establish verifiable cash flow statements for bank credit.',
